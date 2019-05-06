@@ -179,9 +179,7 @@
                         <label for="notificationStartTimes" class="col-form-label col-form-label-lg">Notification start times <span class="required">*</span></label>
                         <tag-input 
                             name="notificationStartTimes"
-                            inputClass="timeClass"
-                            inputId="tagId"
-                            [(ngModel)]="model.item" 
+                            [(ngModel)]="model.item"
                             [onlyFromAutocomplete]="true" 
                             #notificationStartTimes="ngModel" 
                             [ngClass]="{ 'is-invalid': f.submitted && notificationStartTimes.invalid }" 
@@ -192,6 +190,7 @@
                             (onSelect)="showTimePicker($event)"
                             theme='bootstrap'
                             style="background-color: #e9ecef;">
+                            
                                 <tag-input-dropdown
                                     [autocompleteItems]="items"
                                     [showDropdownIfEmpty]="true"
@@ -203,7 +202,7 @@
                             {{ error.errorMessage }}
                         </div>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="tmessage" class="col-form-label col-form-label-lg">Message <span class="required">*</span></label>
                         <textarea class="form-control" name="tmessage" [(ngModel)]="model.tmessage" #tmessage="ngModel" [ngClass]="{ 'is-invalid': f.submitted && tmessage.invalid }" required></textarea>

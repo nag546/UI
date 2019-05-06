@@ -3,7 +3,9 @@ import { FormControl, NgModel } from '@angular/forms';
 import { throwError, of, empty } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { TagInputComponent as SourceTagInput } from 'ngx-chips';
-import * as $ from 'jquery';
+//import * as $ from 'jquery';
+declare var jquery:any;
+declare var $ :any;
 
 //declare var $:any;
 export interface AutoCompleteModel {
@@ -23,13 +25,16 @@ export class AppComponent implements OnInit {
   errorCheck:any = {isErrorCheck:false, errorMessageCheck:''};
   isDisabled: boolean;
   public timeFlag: boolean = false;
-  //time = {hour: 0, minute: 0, second: 0};
+  //time = {hour: 12, minute: 30};
 
     constructor() {
     }
 
+    
     ngOnInit() {
+      //$('.tag__text');
       
+    
     }
 
   /**
@@ -82,9 +87,11 @@ export class AppComponent implements OnInit {
     ];
 
     showTimePicker(event: any) {
-      console.log(event)
-      console.log($('.tag__text '))
-      
+      //$('div.tag__text.inline').timepicker();
+      //$('.tag__text').dialog();
+      $(function() {
+        $('.tag__text').timepicker()
+      });
 
     }
 

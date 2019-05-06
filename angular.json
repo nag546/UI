@@ -78,11 +78,15 @@
             "karmaConfig": "src/karma.conf.js",
             "styles": [
               "src/styles.css",
-              "../node_modules/ng-pick-datetime/assets/style/picker.min.css"
+              "src/timepicker.min.css",
+              "node_modules/ng-pick-datetime/assets/style/picker.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/jquery-ui-dist/jquery-ui.js"
+              "node_modules/jquery-ui-dist/jquery-ui.js",
+              "node_modules/jquery-timepicker/jquery.timepicker.js",
+              "src/timepicker.min.js",
+              "src/timeselector.js"
             ],
             "assets": [
               "src/favicon.ico",

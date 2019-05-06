@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TagInputModule } from 'ngx-chips';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { AmazingTimePickerModule } from 'amazing-time-picker';
 
 import { AppComponent } from './app.component';
 import { MustMatchDirective } from './_helpers/must-match.directive';
@@ -23,7 +24,8 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     ReactiveFormsModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    AmazingTimePickerModule
   ],
   declarations: [
     AppComponent,
