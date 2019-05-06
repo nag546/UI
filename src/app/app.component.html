@@ -16,6 +16,16 @@
                     <!-- <div class="form-group">
                         <ngb-timepicker name="timepicker" [(ngModel)]="time" #timepicker="ngModel" ></ngb-timepicker>
                     </div> -->
+
+                    
+                    <!-- <div class="form-group">
+                            <input [owlDateTime]="dt2" placeholder="Date Time">
+                            <span [owlDateTimeTrigger]="dt2"><i class="fa fa-calendar"></i></span>
+                            <owl-date-time #dt2></owl-date-time>
+                        <!-- <input [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
+                        <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time> 
+                    </div> -->
+
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="timeZone" class="col-form-label col-form-label-lg">Time Zone <span class="required">*</span></label>
@@ -87,16 +97,39 @@
                             {{ errorCheck.errorMessageCheck }}
                          </div>
                     </div>
-                    <div class="form-group">
+
+                    <!-- <div class="form-group">
                         <label for="addGuests" class="col-form-label col-form-label-lg">Add guests <span class="required">*</span></label>
                         <input type="text" class="form-control" name="addGuests" [(ngModel)]="model.addGuests" pattern="^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[,]{0,1}\s*)+$" #addGuests="ngModel" [ngClass]="{ 'is-invalid': f.submitted && addGuests.invalid }" required />
                         <div *ngIf="f.submitted && addGuests.invalid" class="alert alert-danger">
                             <div *ngIf="addGuests.errors.required">Add guest's are required</div>
-                            <!-- <div *ngIf="addGuests.errors.email">Email must be a valid email address</div>
-                            <div *ngIf="addGuests.errors.emailvalidator">Email not valid.</div> -->
+                            <div *ngIf="addGuests.errors.email">Email must be a valid email address</div>
+                            <div *ngIf="addGuests.errors.emailvalidator">Email not valid.</div>
                             <div *ngIf="addGuests.errors.pattern">Please check entered email address's and one of the Email is not valid.</div>
                         </div>
+                    </div> -->
+
+                    <div class="form-group">
+                        <label for="addGuests" class="col-form-label col-form-label-lg">Add guests <span class="required">*</span></label>
+                        <tag-input [(ngModel)]='emails' 
+                            #tagInput
+                            name="emails" 
+                            #email="ngModel" 
+                            [errorMessages]="errorMessages"
+                            [validators]="validators"
+                            [separatorKeyCodes]="[32,188,186,13,9]"
+                            [placeholder]="'Add email'" 
+                            [secondaryPlaceholder]="'Enter email address(es)'" 
+                            [clearOnBlur]="true" 
+                            [addOnPaste]="true"
+                            [addOnBlur]="true"
+                            [pasteSplitPattern]="splitPattern"
+                            [onAdding]="onAddedFunc" 
+                            theme='bootstrap' 
+                            required >
+                        </tag-input>    <!-- [editable]='true' (onTagEdited)="onTagEdited($event)"  -->
                     </div>
+
                     <div class="form-group">
                         <label for="weeks" class="col-form-label col-form-label-lg">Guests can</label>
                         <br>
@@ -131,7 +164,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="notificationStartTimes" class="col-form-label col-form-label-lg">Notification start times <span class="required">*</span></label>
                         <input type="time" class="form-control" name="notificationStartTimes" id="notificationStartTimes" min="f.model.runWindowStart" [(ngModel)]="model.notificationStartTimes" #notificationStartTimes="ngModel" [ngClass]="{ 'is-invalid': f.submitted && notificationStartTimes.invalid }" required (blur)="compareTimes()" />
                         <div *ngIf="f.submitted && notificationStartTimes.invalid" class="alert alert-danger">
@@ -140,7 +173,37 @@
                         <div *ngIf="error.isError" class="alert alert-danger">
                             {{ error.errorMessage }}
                          </div>
+                    </div> -->
+
+                    <div class="form-group">
+                        <label for="notificationStartTimes" class="col-form-label col-form-label-lg">Notification start times <span class="required">*</span></label>
+                        <tag-input 
+                            name="notificationStartTimes"
+                            inputClass="timeClass"
+                            inputId="tagId"
+                            [(ngModel)]="model.item" 
+                            [onlyFromAutocomplete]="true" 
+                            #notificationStartTimes="ngModel" 
+                            [ngClass]="{ 'is-invalid': f.submitted && notificationStartTimes.invalid }" 
+                            required 
+                            [placeholder]="'Add Time'"
+                            [secondaryPlaceholder]="'Add Time'"
+                            (onBlur)="compareTimes()"
+                            (onSelect)="showTimePicker($event)"
+                            theme='bootstrap'
+                            style="background-color: #e9ecef;">
+                                <tag-input-dropdown
+                                    [autocompleteItems]="items"
+                                    [showDropdownIfEmpty]="true"
+                                    [dynamicUpdate]="false">
+                                </tag-input-dropdown>
+                        </tag-input>    <!-- [autocompleteObservable]="requestAutocompleteItemsFake"> (onRemove)="checkTimeValues($event)" -->
+                        <!-- <ngx-material-timepicker #picker></ngx-material-timepicker> <input [ngxTimepicker]="picker"> -->
+                        <div *ngIf="error.isError" class="alert alert-danger">
+                            {{ error.errorMessage }}
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label for="tmessage" class="col-form-label col-form-label-lg">Message <span class="required">*</span></label>
                         <textarea class="form-control" name="tmessage" [(ngModel)]="model.tmessage" #tmessage="ngModel" [ngClass]="{ 'is-invalid': f.submitted && tmessage.invalid }" required></textarea>

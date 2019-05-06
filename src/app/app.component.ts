@@ -1,11 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-// import {NgbTimepickerConfig} from '@ng-bootstrap/ng-bootstrap';
-// import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, NgModel } from '@angular/forms';
+import { throwError, of, empty } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { TagInputComponent as SourceTagInput } from 'ngx-chips';
+import * as $ from 'jquery';
+
+//declare var $:any;
+export interface AutoCompleteModel {
+   value: any;
+   display: string;
+}
 
 @Component({
   selector: 'app',
   templateUrl: 'app.component.html',
-  styles: ['.required { color: red; }']
+  styleUrls: ['./app.component.css']
 })
 
 export class AppComponent implements OnInit {
@@ -13,14 +22,89 @@ export class AppComponent implements OnInit {
   error:any = {isError:false, errorMessage:''};
   errorCheck:any = {isErrorCheck:false, errorMessageCheck:''};
   isDisabled: boolean;
+  public timeFlag: boolean = false;
   //time = {hour: 0, minute: 0, second: 0};
 
-  constructor() {
-   }
+    constructor() {
+    }
 
-  ngOnInit() {
+    ngOnInit() {
+      
+    }
+
+  /**
+   * Starts gmail chips code here
+   */
+    @ViewChild('tagInput')
+    tagInput: SourceTagInput;
+
+    public validators = [ this.must_be_email.bind(this) ];
+    public errorMessages = {
+        'must_be_email': 'Please be sure to use a valid email format'
+    };
+    public onAddedFunc = this.beforeAdd.bind(this);
+
+    private addFirstAttemptFailed = false;
+
+    private must_be_email(control: FormControl) {
+      if (this.addFirstAttemptFailed && !this.validateEmail(control.value)) {
+          return { "must_be_email": true };
+      }
+      return null;
+    }
     
-   }
+    private beforeAdd(tag: string) {
+      if (!this.validateEmail(tag)) {
+        if (!this.addFirstAttemptFailed) {
+          this.addFirstAttemptFailed = true;
+          this.tagInput.setInputValue(tag);
+        }
+        return throwError(this.errorMessages['must_be_email']);
+        //return of('').pipe(tap(() => setTimeout(() => this.tagInput.setInputValue(tag))));
+      }
+      this.addFirstAttemptFailed = false;
+      return of(tag);
+    }
+
+    private validateEmail(text: string) {
+      var EMAIL_REGEXP = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/i;
+      return (text && EMAIL_REGEXP.test(text));
+    }
+    /**
+     * Ends gmail chips code here
+     */
+
+     /**
+      * Notification times code start here
+      */
+    public items = [
+      {display: '00:00', value: 1}, {display: '00:30', value: 2}, {display: '01:00', value: 3}, {display: '01:30', value: 4}, {display: '02:00', value: 5}, {display: '02:30', value: 6}, {display: '03:00', value: 7}, {display: '03:30', value: 8}, {display: '04:00', value: 9}, {display: '04:30', value: 10}, {display: '05:00', value: 11}, {display: '05:30', value: 12}, {display: '06:00', value: 13}, {display: '06:30', value: 14}, {display: '07:00', value: 15}, {display: '07:30', value: 16},{display: '08:00', value: 17}, {display: '08:30', value: 18}, {display: '09:00', value: 19}, {display: '09:30', value: 20}, {display: '10:00', value: 21}, {display: '10:30', value: 22}, {display: '11:00', value: 23}, {display: '11:30', value: 24}, {display: '12:00', value: 25}, {display: '12:30', value: 26}, {display: '13:00', value: 27}, {display: '13:30', value: 28}, {display: '14:00', value: 29}, {display: '14:30', value: 30}, {display: '15:00', value: 31}, {display: '15:30', value: 32}, {display: '16:00', value: 33}, {display: '16:30', value: 34}, {display: '17:00', value: 35}, {display: '17:30', value: 36}, {display: '18:00', value: 37}, {display: '18:30', value: 38}, {display: '19:00', value: 39}, {display: '19:30', value: 40}, {display: '20:00', value: 41}, {display: '20:30', value: 42}, {display: '21:00', value: 43}, {display: '21:30', value: 44}, {display: '22:00', value: 45}, {display: '22:30', value: 46}, {display: '23:00', value: 47}, {display: '23:30', value: 48}
+    ];
+
+    showTimePicker(event: any) {
+      console.log(event)
+      console.log($('.tag__text '))
+      
+
+    }
+
+    // checkTimeValues(event: any) {
+    //   if(this.model.item && this.model.item.length > 0) {
+    //     for(let i = 0; i < this.model.item.length; i++) {
+    //       console.log(this.model.item[i].display);
+    //       if(this.model.item[i].display < this.model.runWindowStart) {
+    //        this.error= { isError:false, errorMessage:"" };
+    //        this.isDisabled = false;
+    //      } else {
+    //       this.error= { isError:true, errorMessage:"Notification time can't after the window start time" };
+    //       this.isDisabled = true;
+    //      }
+    //    }
+    //   }
+    // }
+    /**
+     * Notification times code ends here
+     */
 
    checkValue(event: any){
     console.log(event);
@@ -34,14 +118,22 @@ export class AppComponent implements OnInit {
     }
   }
 
-   compareTimes(){
-    if(this.model.notificationStartTimes > this.model.runWindowStart){
-       this.error= { isError:true,errorMessage:"Notification time can't after the window start time" };
-       this.isDisabled = true;
-       //return false;
-    } else {
-      this.error= { isError:false, errorMessage:"" };
-      this.isDisabled = false;
+   compareTimes() {
+    if(this.model.item && this.model.item.length > 0) {
+      for(let i = 0; i < this.model.item.length; i++) {
+        console.log(this.model.item[i].display);
+        if(this.model.item[i].display > this.model.runWindowStart){
+          this.error= { isError:true, errorMessage:"Notification time can't after the window start time" };
+          this.isDisabled = true;
+          //this.timeFlag = true;
+          //return false;
+       } else {
+         this.error= { isError:false, errorMessage:"" };
+         this.isDisabled = false;
+         //this.timeFlag = false;
+       }
+     }
+     //this.timeFlag = false;
     }
   }
 
