@@ -183,26 +183,45 @@
                             [onlyFromAutocomplete]="true" 
                             #notificationStartTimes="ngModel" 
                             [ngClass]="{ 'is-invalid': f.submitted && notificationStartTimes.invalid }" 
-                            required 
+                            required
+                            [editable]='true'
                             [placeholder]="'Add Time'"
                             [secondaryPlaceholder]="'Add Time'"
                             (onBlur)="compareTimes()"
                             (onSelect)="showTimePicker($event)"
                             theme='bootstrap'
                             style="background-color: #e9ecef;">
-                            
                                 <tag-input-dropdown
                                     [autocompleteItems]="items"
+                                    [appendToBody]="false"
                                     [showDropdownIfEmpty]="true"
-                                    [dynamicUpdate]="false">
+                                    [dynamicUpdate]="true">
                                 </tag-input-dropdown>
                         </tag-input>    <!-- [autocompleteObservable]="requestAutocompleteItemsFake"> (onRemove)="checkTimeValues($event)" -->
                         <!-- <ngx-material-timepicker #picker></ngx-material-timepicker> <input [ngxTimepicker]="picker"> -->
+                        <!-- <tag-input [(ngModel)]='notificationStartTimes' 
+                            #tagInput2
+                            name="notificationStartTimes" 
+                            #time="ngModel" 
+                            [errorMessages]="errorMessages"
+                            [validators]="validators"
+                            [separatorKeyCodes]="[32,188,186,13,9]"
+                            [placeholder]="'Add Time'" 
+                            [secondaryPlaceholder]="'Enter time address(es)'" 
+                            [clearOnBlur]="true" 
+                            [addOnPaste]="true"
+                            [addOnBlur]="true"
+                            [pasteSplitPattern]="splitPattern"
+                            [onAdding]="onAddedFunc2" 
+                            (onSelect)="showTimePicker($event)"
+                            theme='bootstrap' 
+                            required >
+                        </tag-input> -->
                         <div *ngIf="error.isError" class="alert alert-danger">
                             {{ error.errorMessage }}
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="tmessage" class="col-form-label col-form-label-lg">Message <span class="required">*</span></label>
                         <textarea class="form-control" name="tmessage" [(ngModel)]="model.tmessage" #tmessage="ngModel" [ngClass]="{ 'is-invalid': f.submitted && tmessage.invalid }" required></textarea>

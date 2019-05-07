@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, NgModel } from '@angular/forms';
-import { throwError, of, empty } from 'rxjs';
+import { throwError, of, empty, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { TagInputComponent as SourceTagInput } from 'ngx-chips';
 //import * as $ from 'jquery';
@@ -25,16 +25,13 @@ export class AppComponent implements OnInit {
   errorCheck:any = {isErrorCheck:false, errorMessageCheck:''};
   isDisabled: boolean;
   public timeFlag: boolean = false;
-  //time = {hour: 12, minute: 30};
+  hourSelectedBeforeAlter: any;
+  //time = {hour: 0, minute: 0, second: 0};
 
     constructor() {
     }
 
-    
     ngOnInit() {
-      //$('.tag__text');
-      
-    
     }
 
   /**
@@ -82,18 +79,36 @@ export class AppComponent implements OnInit {
      /**
       * Notification times code start here
       */
-    public items = [
+    public items = //["00:00","00:30","01:00","01:30","02:00","02:30","03:00","03:30","04:00","04:30","05:00","05:30","06:00","06:30","07:00","07:30","08:00","08:30","09:00"];
+    [
       {display: '00:00', value: 1}, {display: '00:30', value: 2}, {display: '01:00', value: 3}, {display: '01:30', value: 4}, {display: '02:00', value: 5}, {display: '02:30', value: 6}, {display: '03:00', value: 7}, {display: '03:30', value: 8}, {display: '04:00', value: 9}, {display: '04:30', value: 10}, {display: '05:00', value: 11}, {display: '05:30', value: 12}, {display: '06:00', value: 13}, {display: '06:30', value: 14}, {display: '07:00', value: 15}, {display: '07:30', value: 16},{display: '08:00', value: 17}, {display: '08:30', value: 18}, {display: '09:00', value: 19}, {display: '09:30', value: 20}, {display: '10:00', value: 21}, {display: '10:30', value: 22}, {display: '11:00', value: 23}, {display: '11:30', value: 24}, {display: '12:00', value: 25}, {display: '12:30', value: 26}, {display: '13:00', value: 27}, {display: '13:30', value: 28}, {display: '14:00', value: 29}, {display: '14:30', value: 30}, {display: '15:00', value: 31}, {display: '15:30', value: 32}, {display: '16:00', value: 33}, {display: '16:30', value: 34}, {display: '17:00', value: 35}, {display: '17:30', value: 36}, {display: '18:00', value: 37}, {display: '18:30', value: 38}, {display: '19:00', value: 39}, {display: '19:30', value: 40}, {display: '20:00', value: 41}, {display: '20:30', value: 42}, {display: '21:00', value: 43}, {display: '21:30', value: 44}, {display: '22:00', value: 45}, {display: '22:30', value: 46}, {display: '23:00', value: 47}, {display: '23:30', value: 48}
     ];
 
-    showTimePicker(event: any) {
-      //$('div.tag__text.inline').timepicker();
-      //$('.tag__text').dialog();
-      $(function() {
-        $('.tag__text').timepicker()
+    showTimePicker($event: any) {
+      console.log($(this))
+      console.log($("div.ng-star-inserted .tag__text[title]").text());
+      $('div .ng-star-inserted,div.tag__text').timepicker({
+        timeFormat: 'HH:mm',
+        interval: 30,
+        dynamic: false,
+        dropdown: true
       });
+      
+      //alert($(this).find('div .ng-star-inserted,div.tag__text').next().text());
+      //$('div.tag__text').text('12:30')
+
+      // $('div .ng-star-inserted,.tag__text').autocomplete({
+      //   source: ["00:00","00:30","01:00","01:30","02:00","02:30","03:00","03:30","04:00","04:30","05:00","05:30","06:00","06:30","07:00","07:30","08:00","08:30","09:00"],
+      //   minLength: 0,
+      //   select: function( event, ui ) { console.log(ui.item.value) }
+      // }).focus(function(){            
+      //   $(this).autocomplete('search', '')
+      // });
+
+      //$( ".ng-star-inserted" ).on( "autocompleteselect", function( event, ui ) { console.log('correct çhaged') } );
 
     }
+    
 
     // checkTimeValues(event: any) {
     //   if(this.model.item && this.model.item.length > 0) {
